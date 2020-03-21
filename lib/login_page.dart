@@ -33,130 +33,138 @@ class _LoginPageState extends State<LoginPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 218, 0, 1),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: Image.asset(
-                "assets/toplogin.png",
-                width: MediaQuery.of(context).size.width,
-              ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            child: Image.asset(
+              "assets/toplogin.png",
+              width: MediaQuery.of(context).size.width,
             ),
-            SizedBox(height: 40.0),
-            Text(
-              'Login',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color.fromRGBO(27, 34, 50, 0.9),
-                fontWeight: FontWeight.bold,
-                fontSize: 40.0,
+          ),
+          Padding(
+            padding: EdgeInsets.only(right:MediaQuery.of(context).size.width*0.75),
+            child: IconButton(
+              icon:new Icon(
+                Icons.keyboard_arrow_left,
+                color: Color.fromRGBO(27, 34, 50, 1),
+                size: MediaQuery.of(context).size.width*0.1,
               ),
+              onPressed: () {},
             ),
-            SizedBox(height: 50),
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-                children: <Widget>[
-                  TextField(
-                    decoration: InputDecoration(
+          ),
+          Text(
+            'Login',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color.fromRGBO(27, 34, 50, 0.9),
+              fontWeight: FontWeight.bold,
+              fontSize: 40.0,
+            ),
+          ),
+          SizedBox(height: 50),
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
 
-                      prefixIcon: Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius:BorderRadius.circular(10)
-                        ),
-                        child: Icon(Icons.email)
+                    prefixIcon: Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius:BorderRadius.circular(10)
                       ),
-                      hintText: 'Enter your email address',
-                      hintStyle: TextStyle(color: Colors.white54),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none
-                      ),
+                      child: Icon(Icons.email)
+                    ),
+                    hintText: 'Enter your email address',
+                    hintStyle: TextStyle(color: Colors.white54),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none
+                    ),
 
-                      filled: true,
-                      fillColor: Color.fromRGBO(27, 34, 50, 0.1),
+                    filled: true,
+                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                TextField(
+                  decoration: InputDecoration(
+
+                    prefixIcon: Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius:BorderRadius.circular(10)
+                      ),
+                      child: Icon(Icons.vpn_key)
+                    ),
+                    hintText: 'Enter your password',
+                    hintStyle: TextStyle(color: Colors.white54),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none
+                    ),
+
+                    filled: true,
+                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
+                  ),
+                  obscureText: true,
+                ),
+                SizedBox(height: 10.0),
+                SizedBox( 
+                  width:MediaQuery.of(context).size.width*0.95,
+                  child: RaisedButton(
+                    color: Color.fromRGBO(27, 34, 50, 1),
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Color.fromRGBO(250, 218, 0, 1),
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  TextField(
-                    decoration: InputDecoration(
-
-                      prefixIcon: Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius:BorderRadius.circular(10)
-                        ),
-                        child: Icon(Icons.vpn_key)
-                      ),
-                      hintText: 'Enter your password',
-                      hintStyle: TextStyle(color: Colors.white54),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none
-                      ),
-
-                      filled: true,
-                      fillColor: Color.fromRGBO(27, 34, 50, 0.1),
-                    ),
-                    obscureText: true,
-                  ),
-                  SizedBox(height: 10.0),
-                  SizedBox( 
-                    width:MediaQuery.of(context).size.width*0.95,
-                    child: RaisedButton(
-                      color: Color.fromRGBO(27, 34, 50, 1),
-                      padding: EdgeInsets.all(20),
+                ),
+                SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton(
                       child: Text(
-                        'Login',
+                        'Sign up',
                         style: TextStyle(
-                          color: Color.fromRGBO(250, 218, 0, 1),
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold
+                          fontWeight:FontWeight.bold,
+                          fontSize: 17,
                         ),
                       ),
                       onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                      ),
                     ),
-                  ),
-                  SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      FlatButton(
-                        child: Text(
-                          'Sign up',
-                          style: TextStyle(
-                            fontWeight:FontWeight.bold,
-                            fontSize: 17,
-                          ),
+                    Text(
+                      ' | '
+                    ),
+                    FlatButton(
+                      child: Text(
+                        'Forgot password',
+                        style: TextStyle(
+                          fontWeight:FontWeight.bold,
+                          fontSize: 17,
                         ),
-                        onPressed: () {},
                       ),
-                      Text(
-                        ' | '
-                      ),
-                      FlatButton(
-                        child: Text(
-                          'Forgot password',
-                          style: TextStyle(
-                            fontWeight:FontWeight.bold,
-                            fontSize: 17,
-                          ),
-                        ),
-                        onPressed: () {},
-                      )
-                    ]
-                  )
-                ]
-              ),
-            )
-          ],
-        )
+                      onPressed: () {},
+                    )
+                  ]
+                )
+              ]
+            ),
+          )
+        ],
       )// This trailing comma makes auto-formatting nicer for build methods.
     );
   }

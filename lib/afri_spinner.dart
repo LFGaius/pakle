@@ -39,7 +39,7 @@ class _AfriSpinnerState extends State<AfriSpinner> with SingleTickerProviderStat
       begin: 0.0,
       end: 2*math.pi
     ).animate(animationController);
-    animationController.forward();
+    animationController.repeat();
   }
   @override
   Widget build(BuildContext context) {

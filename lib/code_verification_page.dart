@@ -28,7 +28,9 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
   TextEditingController controllerInput3=new TextEditingController();
   TextEditingController controllerInput4=new TextEditingController();
   TextEditingController controllerInput5=new TextEditingController();
-  String code;
+  String globalcode='';
+  List<String> codes=new List<String>(5);
+  int current_index=0;
   
 
 
@@ -91,7 +93,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
                   fontSize: 17,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {resendCode();},
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.08),
             Container(
@@ -107,8 +109,38 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
     
   }
 
+  resendCode(){
+    eraseAll();
+  }
+
+  eraseAll(){
+    codes[0]='';codes[1]='';codes[2]='';codes[3]='';codes[4]='';
+    feedInputs();
+  }
+
+  eraseLast(){
+    if(current_index>0){
+      current_index--;
+    }
+    codes[current_index]='';
+    feedInputs();
+  }
+
   tapPadNumber(String text){
-    controllerInput1.text=text;
+    if(current_index<5){
+      codes[current_index]=text;
+      feedInputs();
+      current_index++;
+    }
+  }
+
+  feedInputs(){
+    controllerInput1.text=codes[0];
+    controllerInput2.text=codes[1];
+    controllerInput3.text=codes[2];
+    controllerInput4.text=codes[3];
+    controllerInput5.text=codes[4];
+    globalcode=codes[0]+codes[1]+codes[2]+codes[3]+codes[4];
   }
 
   Widget showPadNumbers(){
@@ -185,7 +217,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
                     Icons.backspace,
                     color: Color.fromRGBO(250, 218, 0, 1),
                   ), 
-                  onPressed: () {},
+                  onPressed: () {eraseLast();},
               ),
             )
           ],
