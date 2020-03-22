@@ -49,7 +49,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 color: Color.fromRGBO(27, 34, 50, 1),
                 size: MediaQuery.of(context).size.width*0.1,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/login',
+                  arguments:'from sign up'
+                );
+              },
             ),
           ),
           Text(
@@ -150,7 +155,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontWeight: FontWeight.bold
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        '/verificationcode',
+                        arguments:'signup'
+                      );
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                     ),

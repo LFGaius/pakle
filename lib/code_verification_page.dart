@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 // import 'package:pakle/afri_spinner.dart';
 
 class CodeVerificationPage extends StatefulWidget {
-  CodeVerificationPage({Key key, this.title}) : super(key: key);
+  final String from;
+  CodeVerificationPage({this.from});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -14,8 +15,6 @@ class CodeVerificationPage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
-
-  final String title;
 
   @override
   _CodeVerificationPageState createState() => _CodeVerificationPageState();
@@ -29,7 +28,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
   TextEditingController controllerInput4=new TextEditingController();
   TextEditingController controllerInput5=new TextEditingController();
   String globalcode='';
-  List<String> codes=new List<String>(5);
+  List<String> codes=['','','','',''];
   int current_index=0;
   
 
@@ -53,7 +52,18 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
             color: Color.fromRGBO(27, 34, 50, 1),
             size: 40,
           ),
-          onPressed: () {},
+          onPressed: () {
+            if(widget.from=='login')
+              Navigator.of(context).pushNamed(
+                '/login',
+                arguments:'from verification'
+              );
+            else if(widget.from=='signup')
+              Navigator.of(context).pushNamed(
+                '/signup',
+                arguments:'from verification'
+              );
+          },
         )
         
       ),
@@ -140,7 +150,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
     controllerInput3.text=codes[2];
     controllerInput4.text=codes[3];
     controllerInput5.text=codes[4];
-    globalcode=codes[0]+codes[1]+codes[2]+codes[3]+codes[4];
+    globalcode='${codes[0]}${codes[1]}${codes[2]}${codes[3]}${codes[4]}';
   }
 
   Widget showPadNumbers(){

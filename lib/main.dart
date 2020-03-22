@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pakle/login_page.dart';
+import 'package:pakle/route_builder.dart';
 import 'package:pakle/start_page.dart';
 import 'package:pakle/sign_up_page.dart';
 import 'package:pakle/code_verification_page.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      initialRoute: '/login',
+      onGenerateRoute: RouteBuilder.buidRoute,
     );
   }
 }

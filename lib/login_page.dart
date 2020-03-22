@@ -41,17 +41,17 @@ class _LoginPageState extends State<LoginPage> {
               width: MediaQuery.of(context).size.width,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(right:MediaQuery.of(context).size.width*0.75),
-            child: IconButton(
-              icon:new Icon(
-                Icons.keyboard_arrow_left,
-                color: Color.fromRGBO(27, 34, 50, 1),
-                size: MediaQuery.of(context).size.width*0.1,
-              ),
-              onPressed: () {},
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(right:MediaQuery.of(context).size.width*0.75),
+          //   child: IconButton(
+          //     icon:new Icon(
+          //       Icons.keyboard_arrow_left,
+          //       color: Color.fromRGBO(27, 34, 50, 1),
+          //       size: MediaQuery.of(context).size.width*0.1,
+          //     ),
+          //     onPressed: () {},
+          //   ),
+          // ),
           Text(
             'Login',
             textAlign: TextAlign.center,
@@ -126,7 +126,12 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.bold
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        '/verificationcode',
+                        arguments:'login'
+                      );
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                     ),
@@ -144,7 +149,12 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 17,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          '/signup',
+                          arguments:'from login'
+                        );
+                      },
                     ),
                     Text(
                       ' | '
