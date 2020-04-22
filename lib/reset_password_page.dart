@@ -5,16 +5,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 // import 'package:pakle/afri_spinner.dart';
 
-class LoginPage extends StatefulWidget {
-
+class ResetPasswordPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
-  TextEditingController emailctrl=new TextEditingController();
   TextEditingController passwordctrl=new TextEditingController();
+  TextEditingController rpasswordctrl=new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +28,28 @@ class _LoginPageState extends State<LoginPage> {
               width: MediaQuery.of(context).size.width,
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(right:MediaQuery.of(context).size.width*0.75),
+            child: Row(
+              children:<Widget>[
+                IconButton(
+                  icon:new Icon(
+                    Icons.keyboard_arrow_left,
+                    color: Color.fromRGBO(27, 34, 50, 1),
+                    size: MediaQuery.of(context).size.width*0.1,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      '/login',
+                      arguments:'from reset password'
+                    );
+                  },
+                ),
+              ]
+            )
+          ),
           Text(
-            'Login',
+            'Reset Password',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color.fromRGBO(27, 34, 50, 0.9),
@@ -44,30 +63,6 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: <Widget>[
                 TextField(
-                  controller: emailctrl,
-                  decoration: InputDecoration(
-
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(10)
-                      ),
-                      child: Icon(Icons.email)
-                    ),
-                    hintText: 'Enter your email address',
-                    hintStyle: TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
-                    ),
-
-                    filled: true,
-                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                TextField(
                   controller: passwordctrl,
                   decoration: InputDecoration(
 
@@ -79,7 +74,32 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Icon(Icons.vpn_key)
                     ),
-                    hintText: 'Enter your password',
+                    hintText: 'New password',
+                    hintStyle: TextStyle(color: Colors.white54),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none
+                    ),
+
+                    filled: true,
+                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
+                  ),
+                  obscureText: true,
+                ),
+                SizedBox(height: 20.0),
+                TextField(
+                  controller: rpasswordctrl,
+                  decoration: InputDecoration(
+
+                    prefixIcon: Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius:BorderRadius.circular(10)
+                      ),
+                      child: Icon(Icons.vpn_key)
+                    ),
+                    hintText: 'Repeat password',
                     hintStyle: TextStyle(color: Colors.white54),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -98,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Color.fromRGBO(27, 34, 50, 1),
                     padding: EdgeInsets.all(20),
                     child: Text(
-                      'Login',
+                      'Save',
                       style: TextStyle(
                         color: Color.fromRGBO(250, 218, 0, 1),
                         fontSize: 25.0,
@@ -106,55 +126,17 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        '/verificationcode',
-                        arguments:'login'
-                      );
+                      // Navigator.of(context).pushNamed(
+                      //   '/verificationcode',
+                      //   arguments:'login'
+                      // );
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                     ),
                   ),
-                ),
-                SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Text(
-                        'Sign up',
-                        style: TextStyle(
-                          fontWeight:FontWeight.bold,
-                          fontSize: 17,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          '/signup',
-                          arguments:'from login'
-                        );
-                      },
-                    ),
-                    Text(
-                      ' | '
-                    ),
-                    FlatButton(
-                      child: Text(
-                        'Forgot password',
-                        style: TextStyle(
-                          fontWeight:FontWeight.bold,
-                          fontSize: 17,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          '/verificationcode',
-                          arguments:'forgetlink'
-                        );
-                      },
-                    )
-                  ]
                 )
+                
               ]
             ),
           )

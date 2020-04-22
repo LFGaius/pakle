@@ -1,20 +1,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 // import 'package:pakle/afri_spinner.dart';
 
 class CodeVerificationPage extends StatefulWidget {
   final String from;
   CodeVerificationPage({this.from});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   @override
   _CodeVerificationPageState createState() => _CodeVerificationPageState();
@@ -29,18 +22,12 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
   TextEditingController controllerInput5=new TextEditingController();
   String globalcode='';
   List<String> codes=['','','','',''];
-  int current_index=0;
+  int currentindex=0;
   
 
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 218, 0, 1),
       appBar: AppBar(
@@ -53,13 +40,13 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
             size: 40,
           ),
           onPressed: () {
-            if(widget.from=='login')
+            if(widget.from=='login' || widget.from=='forgetlink')
               Navigator.of(context).pushNamed(
                 '/login',
                 arguments:'from verification'
               );
             else if(widget.from=='signup')
-              Navigator.of(context).pushNamed(
+              Navigator.of(context)..pushNamed(
                 '/signup',
                 arguments:'from verification'
               );
@@ -129,18 +116,21 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
   }
 
   eraseLast(){
-    if(current_index>0){
-      current_index--;
+    if(currentindex>0){
+      currentindex--;
     }
-    codes[current_index]='';
+    codes[currentindex]='';
     feedInputs();
   }
 
   tapPadNumber(String text){
-    if(current_index<5){
-      codes[current_index]=text;
+    if(currentindex<5){
+      codes[currentindex]=text;
       feedInputs();
-      current_index++;
+      currentindex++;
+      if(currentindex==5){
+        //check if <globalcode> match to the sent code if not display error
+      }
     }
   }
 
