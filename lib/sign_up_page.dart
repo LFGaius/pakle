@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 // import 'package:pakle/afri_spinner.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -188,12 +189,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontWeight: FontWeight.bold
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        '/verificationcode',
-                        arguments:'signup'
-                      );
-                    },
+                    onPressed: signupOperation,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                     ),
@@ -206,4 +202,29 @@ class _SignUpPageState extends State<SignUpPage> {
       )// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  signupOperation() async{
+    print('before callout');
+    final response = await http.post(
+      'http://10.0.2.2:3000/signup',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username':usernamectrl.text,
+        'email':emailctrl.text,
+        'password':passwordctrl.text,
+        'rpassword':rpasswordctrl.text
+      }),
+    );
+    print('res: '+json.encode(response));
+    Navigator.of(context).pushNamed(
+                        '/verificationcode',
+                        arguments:'signup'
+                      );
+  }
 }
+
+
+
+
