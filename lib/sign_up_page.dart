@@ -26,6 +26,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
 
+  Map<String,String> errormsg={'global':'','email':'','username':'','password':''};
   TextEditingController usernamectrl=new TextEditingController();
   TextEditingController emailctrl=new TextEditingController();
   TextEditingController passwordctrl=new TextEditingController();
@@ -44,25 +45,33 @@ class _SignUpPageState extends State<SignUpPage> {
               width: MediaQuery.of(context).size.width,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(right:MediaQuery.of(context).size.width*0.75),
-            child: Row(
-              children:<Widget>[
-                IconButton(
-                  icon:new Icon(
-                    Icons.keyboard_arrow_left,
-                    color: Color.fromRGBO(27, 34, 50, 1),
-                    size: MediaQuery.of(context).size.width*0.1,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      '/login',
-                      arguments:'from sign up'
-                    );
-                  },
+          Row(
+            children:<Widget>[
+              IconButton(
+                icon:new Icon(
+                  Icons.keyboard_arrow_left,
+                  color: Color.fromRGBO(27, 34, 50, 1),
+                  size: MediaQuery.of(context).size.width*0.1,
                 ),
-              ]
-            )
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    '/login',
+                    arguments:'from sign up'
+                  );
+                },
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width*0.75,
+                child: Text(
+                  errormsg['global'],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.red,
+                    
+                  ),
+                ),
+              )
+            ]
           ),
           Text(
             'Sign Up',
@@ -73,11 +82,23 @@ class _SignUpPageState extends State<SignUpPage> {
               fontSize: 40.0,
             ),
           ),
-          SizedBox(height: 10),
+          
           Padding(
             padding: EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
+                SizedBox(
+                  height: 10.0,
+                  width: MediaQuery.of(context).size.width*0.95,
+                  child:Text(
+                    errormsg['username'],
+                    textAlign: TextAlign.left,
+                    style:TextStyle(
+                      color:Colors.red,
+                      fontSize: 10,
+                    )
+                  )
+                ),
                 TextField(
                   controller: usernamectrl,
                   decoration: InputDecoration(
@@ -101,7 +122,18 @@ class _SignUpPageState extends State<SignUpPage> {
                     fillColor: Color.fromRGBO(27, 34, 50, 0.1),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(
+                  height: 20.0,
+                  width: MediaQuery.of(context).size.width*0.95,
+                  child:Text(
+                    errormsg['email'],
+                    textAlign: TextAlign.left,
+                    style:TextStyle(
+                      color:Colors.red,
+                      fontSize: 10,
+                    )
+                  )
+                ),
                 TextField(
                   controller: emailctrl,
                   decoration: InputDecoration(
@@ -125,7 +157,18 @@ class _SignUpPageState extends State<SignUpPage> {
                     fillColor: Color.fromRGBO(27, 34, 50, 0.1),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(
+                  height: 20.0,
+                  width: MediaQuery.of(context).size.width*0.95,
+                  child:Text(
+                    errormsg['password'],
+                    textAlign: TextAlign.left,
+                    style:TextStyle(
+                      color:Colors.red,
+                      fontSize: 10,
+                    )
+                  )
+                ),
                 TextField(
                   controller: passwordctrl,
                   decoration: InputDecoration(
@@ -221,11 +264,18 @@ class _SignUpPageState extends State<SignUpPage> {
       body: userData,
     );
     print('after callout');
-    print(response.statusCode);
-    Navigator.of(context).pushNamed(
-                        '/verificationcode',
-                        arguments:'signup'
-                      );
+    if(response.statusCode!=200){
+      print(response.body);
+      Map<String,dynamic> parsedbody=json.decode(response.body);
+      errormsg['global']=parsedbody['globalError']!=null?parsedbody['globalError']['msg']:'';
+      errormsg['email']=parsedbody['email']!=null?parsedbody['email']['msg']:'';
+      errormsg['username']=parsedbody['username']!=null?parsedbody['username']['msg']:'';
+      errormsg['password']=parsedbody['password']!=null?parsedbody['password']['msg']:'';
+    }
+    // Navigator.of(context).pushNamed(
+    //                     '/verificationcode',
+    //                     arguments:'signup'
+    //                   );
   }
 }
 
