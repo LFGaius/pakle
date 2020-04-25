@@ -204,20 +204,24 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   signupOperation() async{
-    print('before callout');
+    print('1before callout');
+    String userData=jsonEncode(<String, String>{
+        'username':usernamectrl.text,
+        'email':emailctrl.text,
+        'password':passwordctrl.text,
+        'rpassword':rpasswordctrl.text
+    });
+
+    print('datas: ${userData}');
     final response = await http.post(
       'http://10.0.2.2:3000/signup',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'username':usernamectrl.text,
-        'email':emailctrl.text,
-        'password':passwordctrl.text,
-        'rpassword':rpasswordctrl.text
-      }),
+      body: userData,
     );
-    print('res: '+json.encode(response));
+    print('after callout');
+    print(response.statusCode);
     Navigator.of(context).pushNamed(
                         '/verificationcode',
                         arguments:'signup'
