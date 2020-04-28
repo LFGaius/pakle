@@ -6,19 +6,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:pakle/custom_text_field.dart';
-// import 'package:pakle/afri_spinner.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -148,8 +138,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   signupOperation() async{
     try{
-      print('1before callout');
-
       setActionPending(true);
       String userData=jsonEncode(<String, String>{
           'username':usernamectrl.text,
@@ -158,8 +146,6 @@ class _SignUpPageState extends State<SignUpPage> {
           'rpassword':rpasswordctrl.text
       });
 
-      print('datas: ${userData}');
-      //need to implement the case where there is no connection
       final response = await http.post(
         'http://10.0.2.2:3000/signup',
         headers: <String, String>{
@@ -168,12 +154,10 @@ class _SignUpPageState extends State<SignUpPage> {
         body: userData,
       );
       setActionPending(false);
-      print('after callout');
       if(response.statusCode!=200){
-        print(response.body);
         Map<String,dynamic> parsedbody=json.decode(response.body);
         setErrorMessages(parsedbody);
-      }else{
+      }else
         Navigator.of(context).pushNamed(
                           '/verificationcode',
                           arguments:{
@@ -186,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         }
                           }
                         );
-      }
+      
     }catch(SocketException){
       setState(() {
         errormsg['global']='Connection Problem!';

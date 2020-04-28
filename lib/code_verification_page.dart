@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'afri_spinner.dart';
-// import 'package:pakle/afri_spinner.dart';
 
 class CodeVerificationPage extends StatefulWidget {
   final String from;
@@ -129,12 +128,9 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
 
   resendCode() async{
     try{
-      print('1before callout');
       String data=jsonEncode(<String, dynamic>{
           'email':widget.userData['email'],
       });
-
-      print('${errormessage} datas: ${data}');
       setActionPending(true);
       final response = await http.post(
         'http://10.0.2.2:3000/sendcode',
@@ -144,12 +140,10 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
         body: data,
       );
       setActionPending(false);
-      print('after callout');
-      if(response.statusCode==200){
+      if(response.statusCode==200)
         eraseAll();
-      }else{
+      else
         setErrorMessage('Sending Code Error!');
-      }
     }catch(SocketException){
       setErrorMessage('Connection Problem!');
       setActionPending(false);
@@ -162,9 +156,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
   }
 
   eraseLast(){
-    if(currentindex>0){
-      currentindex--;
-    }
+    if(currentindex>0) currentindex--;
     codes[currentindex]='';
     feedInputs();
   }
@@ -174,16 +166,13 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
       codes[currentindex]=text;
       feedInputs();
       currentindex++;
-      if(currentindex==5){
+      if(currentindex==5)
         try{
-          print('1before callout');
           String data=jsonEncode(<String, dynamic>{
               'code':globalcode,
               'optype':widget.from,
               'userData':widget.userData,
           });
-
-          print('${errormessage} datas: ${data}');
           setActionPending(true);
           final response = await http.post(
             'http://10.0.2.2:3000/verification',
@@ -193,9 +182,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
             body: data,
           );
           setActionPending(false);
-          print('after callout');
           if(response.statusCode==200){
-            print(response.body);
             Map<String,dynamic> parsedbody=json.decode(response.body);
             switch(parsedbody['message']){
               case 'verified':
@@ -214,7 +201,6 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
           setErrorMessage('Connection Problem!');
           setActionPending(false);
         }
-      }
     }
   }
 
@@ -330,9 +316,6 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
                   fontSize: 30,
                   fontWeight:FontWeight.bold,
                   color:Color.fromRGBO(27, 34, 50, 1),
-                  // shadows: <Shadow>[
-                  //   Shadow(blurRadius: 40,color: Color.fromRGBO(27, 34, 50, 1),offset: Offset(0,10))
-                  // ]
                 ),
               ),
             );
@@ -342,8 +325,6 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
 }
 
 class CodeInput extends StatelessWidget {
-  // This widget is the root of your application.
-
   final TextEditingController controller; 
   CodeInput({this.controller});
 
@@ -376,7 +357,6 @@ class CodeInput extends StatelessWidget {
 }
 
 class PadNumber extends StatelessWidget {
-  // This widget is the root of your application.
 
   final int number; 
   final Function() onPressed;
