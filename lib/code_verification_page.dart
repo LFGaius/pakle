@@ -3,11 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'afri_spinner.dart';
 // import 'package:pakle/afri_spinner.dart';
 
 class CodeVerificationPage extends StatefulWidget {
   final String from;
-  CodeVerificationPage({this.from});
+  final Map<String,dynamic> userData;
+  CodeVerificationPage({this.from,this.userData});
 
   @override
   _CodeVerificationPageState createState() => _CodeVerificationPageState();
@@ -23,6 +26,8 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
   String globalcode='';
   List<String> codes=['','','','',''];
   int currentindex=0;
+  String errormessage='';
+  bool actionpending=false;
   
 
 
@@ -43,12 +48,10 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
             if(widget.from=='login' || widget.from=='forgetlink')
               Navigator.of(context).pushNamed(
                 '/login',
-                arguments:'from verification'
               );
             else if(widget.from=='signup')
               Navigator.of(context)..pushNamed(
                 '/signup',
-                arguments:'from verification'
               );
           },
         )
@@ -92,11 +95,29 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
               ),
               onPressed: () {resendCode();},
             ),
-            SizedBox(height: MediaQuery.of(context).size.height*0.08),
-            Container(
-              height: MediaQuery.of(context).size.height*0.5,
-              width: MediaQuery.of(context).size.width*0.7,
-              child: showPadNumbers()
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.08,
+              child:actionpending ?
+                    AfriSpinner(
+                      width: MediaQuery.of(context).size.height*0.08,
+                    )
+                    :
+                    Text(
+                      errormessage.toUpperCase(),
+                      textAlign: TextAlign.left,
+                      style:TextStyle(
+                        color:Colors.red,
+                        fontSize: 11,
+                      )
+                    )
+
+            ),
+            Expanded(
+              child: Container(
+                height: MediaQuery.of(context).size.height*0.5,
+                width: MediaQuery.of(context).size.width*0.7,
+                child: showPadNumbers()
+              ),
             )
           ],
         )
@@ -106,8 +127,33 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
     
   }
 
-  resendCode(){
-    eraseAll();
+  resendCode() async{
+    try{
+      print('1before callout');
+      String data=jsonEncode(<String, dynamic>{
+          'email':widget.userData['email'],
+      });
+
+      print('${errormessage} datas: ${data}');
+      setActionPending(true);
+      final response = await http.post(
+        'http://10.0.2.2:3000/sendcode',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: data,
+      );
+      setActionPending(false);
+      print('after callout');
+      if(response.statusCode==200){
+        eraseAll();
+      }else{
+        setErrorMessage('Sending Code Error!');
+      }
+    }catch(SocketException){
+      setErrorMessage('Connection Problem!');
+      setActionPending(false);
+    }
   }
 
   eraseAll(){
@@ -123,15 +169,65 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
     feedInputs();
   }
 
-  tapPadNumber(String text){
+  tapPadNumber(String text) async{
     if(currentindex<5){
       codes[currentindex]=text;
       feedInputs();
       currentindex++;
       if(currentindex==5){
-        //check if <globalcode> match to the sent code if not display error
+        try{
+          print('1before callout');
+          String data=jsonEncode(<String, dynamic>{
+              'code':globalcode,
+              'optype':widget.from,
+              'userData':widget.userData,
+          });
+
+          print('${errormessage} datas: ${data}');
+          setActionPending(true);
+          final response = await http.post(
+            'http://10.0.2.2:3000/verification',
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: data,
+          );
+          setActionPending(false);
+          print('after callout');
+          if(response.statusCode==200){
+            print(response.body);
+            Map<String,dynamic> parsedbody=json.decode(response.body);
+            switch(parsedbody['message']){
+              case 'verified':
+                setErrorMessage('Code verified!');
+                break;
+              case 'notverified':
+                setErrorMessage('Invalid Code!');
+                break;
+              case 'codeexpired':
+                setErrorMessage('Code expired!');
+                break;
+            }
+            // errormsg['global']=parsedbody['globalError']!=null?parsedbody['globalError']['msg']:'';
+          }
+        }catch(SocketException){
+          setErrorMessage('Connection Problem!');
+          setActionPending(false);
+        }
       }
     }
+  }
+
+  setActionPending(value){
+    setState(() {
+      actionpending=value;
+    });
+  }
+
+  setErrorMessage(value){
+    setState(() {
+      errormessage=value;
+    });
   }
 
   feedInputs(){
@@ -206,8 +302,8 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
               onPressed: () {tapPadNumber('0');},
             ),
             Container(
-              width: 60,
-              height: 60,
+              width: MediaQuery.of(context).size.width*0.15,
+              height: MediaQuery.of(context).size.width*0.15,
               decoration: BoxDecoration(
                 color: Color.fromRGBO(27, 34, 50, 0.8),
                 borderRadius: BorderRadius.circular(50)

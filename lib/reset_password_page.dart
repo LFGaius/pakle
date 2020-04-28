@@ -41,7 +41,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(
                       '/login',
-                      arguments:'from reset password'
                     );
                   },
                 ),

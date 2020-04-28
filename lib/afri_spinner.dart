@@ -28,14 +28,14 @@ class AfriSpinner extends StatefulWidget {
 class _AfriSpinnerState extends State<AfriSpinner> with SingleTickerProviderStateMixin{
 
   AnimationController animationController;
-  Animation<double> animation_rotation;
+  Animation<double> animationrotation;
 
 
   @override
   void initState(){
     super.initState();
     animationController=AnimationController(vsync: this,duration: const Duration(seconds: 10));
-    animation_rotation=Tween<double>(
+    animationrotation=Tween<double>(
       begin: 0.0,
       end: 2*math.pi
     ).animate(animationController);
@@ -43,12 +43,6 @@ class _AfriSpinnerState extends State<AfriSpinner> with SingleTickerProviderStat
   }
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as repeatne
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Container(
       child: AnimatedBuilder(
         animation: animationController,
@@ -59,12 +53,17 @@ class _AfriSpinnerState extends State<AfriSpinner> with SingleTickerProviderStat
         ),
         builder: (context,child)=> Transform.rotate(
           child: child,
-          angle: animation_rotation.value,
+          angle: animationrotation.value,
         ),
       ),
     );
   }
-
+  
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   // @override
   // Widget build(BuildContext context) {
@@ -84,7 +83,7 @@ class _AfriSpinnerState extends State<AfriSpinner> with SingleTickerProviderStat
   //       ),
   //       builder: (context,child)=> Transform.rotate(
   //         child: child,
-  //         angle: animation_rotation.value,
+  //         angle: animationrotation.value,
   //       ),
   //     ),
   //   );

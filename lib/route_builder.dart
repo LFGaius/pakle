@@ -7,7 +7,7 @@ import 'package:pakle/reset_password_page.dart';
 
 class RouteBuilder{
   static Route<dynamic> buidRoute(RouteSettings settings){
-    final args=settings.arguments;
+    final Map<String,dynamic> args=settings.arguments;
 
     switch(settings.name){
       case '/':
@@ -17,7 +17,10 @@ class RouteBuilder{
       case '/signup':
         return MaterialPageRoute(builder: (_)=>SignUpPage());
       case '/verificationcode':
-        return MaterialPageRoute(builder: (_)=>CodeVerificationPage(from: args));
+        return MaterialPageRoute(builder: (_)=>CodeVerificationPage(
+                                                from: args['optype'],
+                                                userData:args['userData']
+                                              ));
       case '/resetpassword':
         return MaterialPageRoute(builder: (_)=>ResetPasswordPage());
       default: return errorRoute();

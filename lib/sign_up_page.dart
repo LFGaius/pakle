@@ -1,9 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pakle/afri_spinner.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:async';
+
+import 'package:pakle/custom_text_field.dart';
 // import 'package:pakle/afri_spinner.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -31,6 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailctrl=new TextEditingController();
   TextEditingController passwordctrl=new TextEditingController();
   TextEditingController rpasswordctrl=new TextEditingController();
+  bool actionpending=false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,20 +59,24 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                     '/login',
-                    arguments:'from sign up'
                   );
                 },
               ),
               Container(
                 width: MediaQuery.of(context).size.width*0.75,
-                child: Text(
-                  errormsg['global'],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.red,
-                    
+                child: actionpending ?
+                  AfriSpinner(
+                    width: MediaQuery.of(context).size.height*0.08,
+                  )
+                  :
+                  Text(
+                    errormsg['global'].toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize:12,
+                    ),
                   ),
-                ),
               )
             ]
           ),
@@ -87,135 +94,28 @@ class _SignUpPageState extends State<SignUpPage> {
             padding: EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
-                SizedBox(
-                  height: 10.0,
-                  width: MediaQuery.of(context).size.width*0.95,
-                  child:Text(
-                    errormsg['username'],
-                    textAlign: TextAlign.left,
-                    style:TextStyle(
-                      color:Colors.red,
-                      fontSize: 10,
-                    )
-                  )
+                CustomTextField(
+                  controller:usernamectrl,
+                  hintText: 'Enter your username',
+                  errorMessage: errormsg['username'].toUpperCase(),
+                  obscureText: false,
                 ),
-                TextField(
-                  controller: usernamectrl,
-                  decoration: InputDecoration(
-
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(10)
-                      ),
-                      child: Icon(Icons.person)
-                    ),
-                    hintText: 'Enter your username',
-                    hintStyle: TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
-                    ),
-
-                    filled: true,
-                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
-                  ),
+                CustomTextField(
+                  controller:emailctrl,
+                  hintText: 'Enter your email',
+                  errorMessage: errormsg['email'].toUpperCase(),
+                  obscureText: false,
                 ),
-                SizedBox(
-                  height: 20.0,
-                  width: MediaQuery.of(context).size.width*0.95,
-                  child:Text(
-                    errormsg['email'],
-                    textAlign: TextAlign.left,
-                    style:TextStyle(
-                      color:Colors.red,
-                      fontSize: 10,
-                    )
-                  )
-                ),
-                TextField(
-                  controller: emailctrl,
-                  decoration: InputDecoration(
-
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(10)
-                      ),
-                      child: Icon(Icons.email)
-                    ),
-                    hintText: 'Enter your email address',
-                    hintStyle: TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
-                    ),
-
-                    filled: true,
-                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                  width: MediaQuery.of(context).size.width*0.95,
-                  child:Text(
-                    errormsg['password'],
-                    textAlign: TextAlign.left,
-                    style:TextStyle(
-                      color:Colors.red,
-                      fontSize: 10,
-                    )
-                  )
-                ),
-                TextField(
-                  controller: passwordctrl,
-                  decoration: InputDecoration(
-
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(10)
-                      ),
-                      child: Icon(Icons.vpn_key)
-                    ),
-                    hintText: 'Enter your password',
-                    hintStyle: TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
-                    ),
-
-                    filled: true,
-                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
-                  ),
+                CustomTextField(
+                  controller:passwordctrl,
+                  hintText: 'Enter your password',
+                  errorMessage: errormsg['password'].toUpperCase(),
                   obscureText: true,
                 ),
-                SizedBox(height: 20.0),
-                TextField(
-                  controller: rpasswordctrl,
-                  decoration: InputDecoration(
-
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(10)
-                      ),
-                      child: Icon(Icons.vpn_key)
-                    ),
-                    hintText: 'Repeat your password',
-                    hintStyle: TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
-                    ),
-
-                    filled: true,
-                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
-                  ),
+                CustomTextField(
+                  controller:rpasswordctrl,
+                  hintText: 'Reapeat your password',
+                  errorMessage: '',
                   obscureText: true,
                 ),
                 SizedBox(height: 10.0),
@@ -247,36 +147,69 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   signupOperation() async{
-    print('1before callout');
-    String userData=jsonEncode(<String, String>{
-        'username':usernamectrl.text,
-        'email':emailctrl.text,
-        'password':passwordctrl.text,
-        'rpassword':rpasswordctrl.text
-    });
+    try{
+      print('1before callout');
 
-    print('datas: ${userData}');
-    final response = await http.post(
-      'http://10.0.2.2:3000/signup',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: userData,
-    );
-    print('after callout');
-    if(response.statusCode!=200){
-      print(response.body);
-      Map<String,dynamic> parsedbody=json.decode(response.body);
+      setActionPending(true);
+      String userData=jsonEncode(<String, String>{
+          'username':usernamectrl.text,
+          'email':emailctrl.text,
+          'password':passwordctrl.text,
+          'rpassword':rpasswordctrl.text
+      });
+
+      print('datas: ${userData}');
+      //need to implement the case where there is no connection
+      final response = await http.post(
+        'http://10.0.2.2:3000/signup',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: userData,
+      );
+      setActionPending(false);
+      print('after callout');
+      if(response.statusCode!=200){
+        print(response.body);
+        Map<String,dynamic> parsedbody=json.decode(response.body);
+        setErrorMessages(parsedbody);
+      }else{
+        Navigator.of(context).pushNamed(
+                          '/verificationcode',
+                          arguments:{
+                            'optype':'signup',
+                            'userData':{
+                                          'username':usernamectrl.text,
+                                          'email':emailctrl.text,
+                                          'password':passwordctrl.text,
+                                          'rpassword':rpasswordctrl.text
+                                        }
+                          }
+                        );
+      }
+    }catch(SocketException){
+      setState(() {
+        errormsg['global']='Connection Problem!';
+        actionpending=false;
+      });
+    }
+  }
+
+  setActionPending(value){
+    setState(() {
+      actionpending=value;
+    });
+  }
+
+  setErrorMessages(parsedbody){
+    setState(() {
       errormsg['global']=parsedbody['globalError']!=null?parsedbody['globalError']['msg']:'';
       errormsg['email']=parsedbody['email']!=null?parsedbody['email']['msg']:'';
       errormsg['username']=parsedbody['username']!=null?parsedbody['username']['msg']:'';
       errormsg['password']=parsedbody['password']!=null?parsedbody['password']['msg']:'';
-    }
-    // Navigator.of(context).pushNamed(
-    //                     '/verificationcode',
-    //                     arguments:'signup'
-    //                   );
+    });
   }
+
 }
 
 

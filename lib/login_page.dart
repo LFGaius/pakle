@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.of(context).pushNamed(
                         '/verificationcode',
-                        arguments:'login'
+                        arguments:{'optype':'login','userData':{'username':''}}
                       );
                     },
                     shape: RoundedRectangleBorder(
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Navigator.of(context).pushNamed(
                           '/signup',
-                          arguments:'from login'
+                          // arguments:'from login'
                         );
                       },
                     ),
@@ -151,6 +151,17 @@ class _LoginPageState extends State<LoginPage> {
                           '/verificationcode',
                           arguments:'forgetlink'
                         );
+                    //     Navigator.of(context).pushNamed(
+                    //   '/changepass',
+                    //   arguments:{
+                    //       'optype':'forgottenpass',
+                    //       'userData':{
+                    //                     'email':widget.useremail,
+                    //                     'password':passwordctrl.text,
+                    //                     'rpassword':rpasswordctrl.text
+                    //                   }
+                    //     }
+                    // );
                       },
                     )
                   ]
