@@ -8,8 +8,9 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final String errorMessage;
   final bool obscureText;
+  final Icon icon;
 
-  CustomTextField({this.controller,this.hintText,this.errorMessage,this.obscureText});
+  CustomTextField({this.controller,this.hintText,this.errorMessage,this.obscureText,this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class CustomTextField extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius:BorderRadius.circular(10)
               ),
-              child: Icon(Icons.person)
+              child: icon
             ),
 
             hintText: hintText,

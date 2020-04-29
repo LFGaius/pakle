@@ -44,7 +44,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
             size: 40,
           ),
           onPressed: () {
-            if(widget.from=='login' || widget.from=='forgetlink')
+            if(widget.from=='login' || widget.from=='recoveryinfo')
               Navigator.of(context).pushNamed(
                 '/login',
               );
@@ -186,7 +186,24 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
             Map<String,dynamic> parsedbody=json.decode(response.body);
             switch(parsedbody['message']){
               case 'verified':
-                setErrorMessage('Code verified!');
+                switch(widget.from){
+                  case 'login':
+                    //navigate to the home page
+                    break;
+                  case 'signup':
+                    Navigator.of(context).pushNamed(
+                      '/login'
+                    );
+                    break;
+                  case 'recoveryinfo':
+                    Navigator.of(context).pushNamed(
+                      '/resetpassword',
+                      arguments:{
+                        'userData':widget.userData
+                      }
+                    );
+                    break;
+                }
                 break;
               case 'notverified':
                 setErrorMessage('Invalid Code!');

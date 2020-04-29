@@ -5,6 +5,8 @@ import 'package:pakle/sign_up_page.dart';
 import 'package:pakle/start_page.dart';
 import 'package:pakle/reset_password_page.dart';
 
+import 'account_recovery_info_page.dart';
+
 class RouteBuilder{
   static Route<dynamic> buidRoute(RouteSettings settings){
     final Map<String,dynamic> args=settings.arguments;
@@ -21,8 +23,10 @@ class RouteBuilder{
                                                 from: args['optype'],
                                                 userData:args['userData']
                                               ));
+      case '/recoveryinfopage':
+        return MaterialPageRoute(builder: (_)=>AccountRecoveryInfoPage());
       case '/resetpassword':
-        return MaterialPageRoute(builder: (_)=>ResetPasswordPage());
+        return MaterialPageRoute(builder: (_)=>ResetPasswordPage(userData:args['userData']));
       default: return errorRoute();
     }
   }

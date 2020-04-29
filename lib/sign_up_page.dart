@@ -89,24 +89,28 @@ class _SignUpPageState extends State<SignUpPage> {
                   hintText: 'Enter your username',
                   errorMessage: errormsg['username'].toUpperCase(),
                   obscureText: false,
+                  icon:Icon(Icons.person)
                 ),
                 CustomTextField(
                   controller:emailctrl,
                   hintText: 'Enter your email',
                   errorMessage: errormsg['email'].toUpperCase(),
                   obscureText: false,
+                  icon:Icon(Icons.email)
                 ),
                 CustomTextField(
                   controller:passwordctrl,
                   hintText: 'Enter your password',
                   errorMessage: errormsg['password'].toUpperCase(),
                   obscureText: true,
+                  icon:Icon(Icons.vpn_key)
                 ),
                 CustomTextField(
                   controller:rpasswordctrl,
                   hintText: 'Reapeat your password',
                   errorMessage: '',
                   obscureText: true,
+                  icon:Icon(Icons.vpn_key)
                 ),
                 SizedBox(height: 10.0),
                 SizedBox( 
@@ -137,6 +141,10 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   signupOperation() async{
+    errormsg['global']='';
+    errormsg['email']='';
+    errormsg['username']='';
+    errormsg['password']='';
     try{
       setActionPending(true);
       String userData=jsonEncode(<String, String>{

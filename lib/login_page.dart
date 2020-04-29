@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'afri_spinner.dart';
+import 'custom_text_field.dart';
 // import 'package:pakle/afri_spinner.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController emailctrl=new TextEditingController();
   TextEditingController passwordctrl=new TextEditingController();
+  Map<String,String> errormsg={'global':'','email':'','username':'','password':''};
+  bool actionpending=false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +34,24 @@ class _LoginPageState extends State<LoginPage> {
               width: MediaQuery.of(context).size.width,
             ),
           ),
+          SizedBox(
+            height:40,
+            child:actionpending ?
+                  AfriSpinner(
+                    width: MediaQuery.of(context).size.height*0.08,
+                  )
+                  :
+                  Center(
+                    child: Text(
+                      errormsg['global'].toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize:12,
+                      ),
+                    ),
+                  ),
+          ),
           Text(
             'Login',
             textAlign: TextAlign.center,
@@ -38,58 +61,24 @@ class _LoginPageState extends State<LoginPage> {
               fontSize: 40.0,
             ),
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 3),
           Padding(
             padding: EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
-                TextField(
-                  controller: emailctrl,
-                  decoration: InputDecoration(
-
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(10)
-                      ),
-                      child: Icon(Icons.email)
-                    ),
-                    hintText: 'Enter your email address',
-                    hintStyle: TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
-                    ),
-
-                    filled: true,
-                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
-                  ),
+                CustomTextField(
+                  controller:emailctrl,
+                  hintText: 'Enter your email',
+                  errorMessage: errormsg['email'].toUpperCase(),
+                  obscureText: false,
+                  icon:Icon(Icons.email)
                 ),
-                SizedBox(height: 20.0),
-                TextField(
-                  controller: passwordctrl,
-                  decoration: InputDecoration(
-
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(10)
-                      ),
-                      child: Icon(Icons.vpn_key)
-                    ),
-                    hintText: 'Enter your password',
-                    hintStyle: TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
-                    ),
-
-                    filled: true,
-                    fillColor: Color.fromRGBO(27, 34, 50, 0.1),
-                  ),
+                CustomTextField(
+                  controller:passwordctrl,
+                  hintText: 'Enter your password',
+                  errorMessage: errormsg['password'].toUpperCase(),
                   obscureText: true,
+                  icon:Icon(Icons.vpn_key)
                 ),
                 SizedBox(height: 10.0),
                 SizedBox( 
@@ -105,12 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.bold
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        '/verificationcode',
-                        arguments:{'optype':'login','userData':{'username':''}}
-                      );
-                    },
+                    onPressed: loginOperation,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                     ),
@@ -131,7 +115,6 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Navigator.of(context).pushNamed(
                           '/signup',
-                          // arguments:'from login'
                         );
                       },
                     ),
@@ -148,20 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () {
                         Navigator.of(context).pushNamed(
-                          '/verificationcode',
-                          arguments:'forgetlink'
+                          '/recoveryinfopage'
                         );
-                    //     Navigator.of(context).pushNamed(
-                    //   '/changepass',
-                    //   arguments:{
-                    //       'optype':'forgottenpass',
-                    //       'userData':{
-                    //                     'email':widget.useremail,
-                    //                     'password':passwordctrl.text,
-                    //                     'rpassword':rpasswordctrl.text
-                    //                   }
-                    //     }
-                    // );
                       },
                     )
                   ]
@@ -172,5 +143,58 @@ class _LoginPageState extends State<LoginPage> {
         ],
       )// This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  loginOperation() async{
+    errormsg['global']='';
+    errormsg['email']='';
+    errormsg['password']='';
+    try{
+      setActionPending(true);
+      String userData=jsonEncode(<String, String>{
+          'email':emailctrl.text,
+          'password':passwordctrl.text
+      });
+
+      final response = await http.post(
+        'http://10.0.2.2:3000/login',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: userData,
+      );
+      setActionPending(false);
+      Map<String,dynamic> parsedbody=json.decode(response.body);//there will be the user id in success ccase
+      if(response.statusCode!=200)
+        setErrorMessages(parsedbody);
+      else
+        Navigator.of(context).pushNamed(
+                          '/verificationcode',
+                          arguments:{
+                            'optype':'login',
+                            'userData':parsedbody
+                          }
+                        );
+      
+    }catch(SocketException){
+      setState(() {
+        errormsg['global']='Connection Problem!';
+        actionpending=false;
+      });
+    }
+  }
+
+  setActionPending(value){
+    setState(() {
+      actionpending=value;
+    });
+  }
+
+  setErrorMessages(parsedbody){
+    setState(() {
+      errormsg['global']=parsedbody['globalError']!=null?parsedbody['globalError']['msg']:'';
+      errormsg['email']=parsedbody['email']!=null?parsedbody['email']['msg']:'';
+      errormsg['password']=parsedbody['password']!=null?parsedbody['password']['msg']:'';
+    });
   }
 }
