@@ -127,6 +127,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
   }
 
   resendCode() async{
+    setErrorMessage('');
     try{
       String data=jsonEncode(<String, dynamic>{
           'email':widget.userData['email'],
@@ -151,6 +152,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
   }
 
   eraseAll(){
+    currentindex=0;
     codes[0]='';codes[1]='';codes[2]='';codes[3]='';codes[4]='';
     feedInputs();
   }
@@ -168,6 +170,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
       currentindex++;
       if(currentindex==5)
         try{
+          setErrorMessage('');
           String data=jsonEncode(<String, dynamic>{
               'code':globalcode,
               'optype':widget.from,
