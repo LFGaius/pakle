@@ -176,9 +176,12 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         );
       
-    }catch(SocketException){
+    }catch(e){
       setState(() {
-        errormsg['global']='Connection Problem!';
+        if(e.runtimeType.toString()=='SocketException')
+          errormsg['global']='Connection Problem!';
+        else 
+          errormsg['global']='Problem Encounted!';
         actionpending=false;
       });
     }

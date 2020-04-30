@@ -217,9 +217,13 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
             }
             // errormsg['global']=parsedbody['globalError']!=null?parsedbody['globalError']['msg']:'';
           }
-        }catch(SocketException){
-          setErrorMessage('Connection Problem!');
-          setActionPending(false);
+        
+        }catch(e){
+          if(e.runtimeType.toString()=='SocketException')
+            setErrorMessage('Connection Problem!');
+          else
+            setErrorMessage('Problem Encounted!'); 
+          actionpending=false;
         }
     }
   }

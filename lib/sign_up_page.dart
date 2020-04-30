@@ -179,9 +179,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           }
                         );
       
-    }catch(SocketException){
+    }catch(e){
       setState(() {
-        errormsg['global']='Connection Problem!';
+        if(e.runtimeType.toString()=='SocketException')
+          errormsg['global']='Connection Problem!';
+        else 
+          errormsg['global']='Problem Encounted!';
         actionpending=false;
       });
     }

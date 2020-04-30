@@ -140,9 +140,12 @@ class _AccountRecoveryInfoPageState extends State<AccountRecoveryInfoPage> {
                           }
                         );
       
-    }catch(SocketException){
+    }catch(e){
       setState(() {
-        errormsg['global']='Connection Problem!';
+        if(e.runtimeType.toString()=='SocketException')
+          errormsg['global']='Connection Problem!';
+        else 
+          errormsg['global']='Problem Encounted!';
         actionpending=false;
       });
     }
