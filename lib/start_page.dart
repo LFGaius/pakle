@@ -1,4 +1,7 @@
 
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pakle/afri_spinner.dart';
@@ -23,14 +26,34 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
 
+  bool actionpending=false;
+  String errormessage='';
+
+   @override
+  void initState(){
+    super.initState();
+    Timer(Duration(seconds: 3),() {
+      setActionPending(true);
+      Socket.connect('10.0.2.2',3000,timeout:Duration(seconds: 10))
+      .then((res) {
+        setState(() {
+          actionpending=false;
+          errormessage='';
+        });
+      })
+      .catchError((onError) {
+        print(onError);
+        setState(() {
+          errormessage='Connection problem';
+          actionpending=false;
+          //close the application
+        });
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       backgroundColor: Color.fromRGBO(250, 218, 0, 1),
       body: Center(
@@ -39,17 +62,45 @@ class _StartPageState extends State<StartPage> {
           children: <Widget>[
             Image.asset(
               "assets/pakle.jpg",
-              width: MediaQuery.of(context).size.width*0.8
+              width: MediaQuery.of(context).size.height*0.45
             ),
             SizedBox(
-              height: 130,
+              height: MediaQuery.of(context).size.height*0.15,
             ),
-            AfriSpinner(
-              width: MediaQuery.of(context).size.width*0.35,
+            actionpending?
+              AfriSpinner(
+                width: MediaQuery.of(context).size.height*0.2,
+              )
+            :
+              Container(
+                height:MediaQuery.of(context).size.height*0.2,
+                child: Center(
+                  child: Text(
+                    errormessage.toUpperCase(),
+                    style: TextStyle(
+                      color: Colors.red
+                    ),
+                  ),
+                ),
+              )
+            ,
+            Container(
+              height:MediaQuery.of(context).size.height*0.1,
+              child: Center(
+                child: Text('Powered by ENOV')
+              ),
             )
           ],
         ),
       )// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  setActionPending(value){
+    setState(() {
+      actionpending=value;
+    });
+  }
 }
+
+
