@@ -5,18 +5,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pakle/afri_spinner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StartPage extends StatefulWidget {
   StartPage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -36,17 +28,31 @@ class _StartPageState extends State<StartPage> {
       setActionPending(true);
       Socket.connect('10.0.2.2',3000,timeout:Duration(seconds: 10))
       .then((res) {
-        setState(() {
-          actionpending=false;
-          errormessage='';
-        });
+          getUserPreferences().then((SharedPreferences prefs) {
+            print(prefs.getString('pakle_language')==null);
+            actionpending=false;
+            errormessage='';
+            if(prefs.getString('pakle_language')==null){//first time connection
+              Navigator.of(context).pushNamed(
+                '/chooselanguage',
+              );
+            }else{
+              if(prefs.getBool('pakle_is_login')==null || prefs.getBool('pakle_is_login')==false)
+                Navigator.of(context).pushNamed(
+                  '/login',
+                );
+              else{
+                //go to the home page
+              } 
+            }
+          });
       })
       .catchError((onError) {
         print(onError);
         setState(() {
           errormessage='Connection problem';
           actionpending=false;
-          //close the application
+          exit(0);
         });
       });
     });
@@ -94,6 +100,11 @@ class _StartPageState extends State<StartPage> {
         ),
       )// This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  Future<SharedPreferences> getUserPreferences() async{
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    return prefs;
   }
 
   setActionPending(value){

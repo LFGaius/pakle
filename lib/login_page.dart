@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
         body: userData,
       );
       setActionPending(false);
-      Map<String,dynamic> parsedbody=json.decode(response.body);//there will be the user id in success ccase
+      Map<String,dynamic> parsedbody=json.decode(response.body);
       if(response.statusCode!=200)
         setErrorMessages(parsedbody);
       else

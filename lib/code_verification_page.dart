@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import 'afri_spinner.dart';
@@ -191,6 +192,7 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
               case 'verified':
                 switch(widget.from){
                   case 'login':
+                    await setLoginPreferences();
                     //navigate to the home page
                     break;
                   case 'signup':
@@ -247,6 +249,12 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
     controllerInput4.text=codes[3];
     controllerInput5.text=codes[4];
     globalcode='${codes[0]}${codes[1]}${codes[2]}${codes[3]}${codes[4]}';
+  }
+
+  setLoginPreferences() async{
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    prefs.setString('pakle_email',widget.userData['email']);
+    prefs.setBool('pakle_is_login',true);
   }
 
   Widget showPadNumbers(){
