@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pakle/code_verification_page.dart';
 import 'package:pakle/login_page.dart';
+import 'package:pakle/onboarding_screen.dart';
 import 'package:pakle/sign_up_page.dart';
 import 'package:pakle/start_page.dart';
 import 'package:pakle/reset_password_page.dart';
@@ -14,6 +15,8 @@ class RouteBuilder{
     switch(settings.name){
       case '/':
         return MaterialPageRoute(builder: (_)=>StartPage());
+      case '/onboarding':
+        return MaterialPageRoute(builder: (_)=>OnboardingScreen());
       case '/login':
         return MaterialPageRoute(builder: (_)=>LoginPage());
       case '/signup':

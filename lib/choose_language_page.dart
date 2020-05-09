@@ -88,6 +88,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
   chooseOperation(String language) async{
     SharedPreferences prefs=await SharedPreferences.getInstance();
     prefs.setString('pakle_language',language);
-    Navigator.of(context).pushNamed('/login');
+    //prefs.setString('pakle_language',null);
+    Navigator.of(context).pushNamed('/onboarding');
   }
 }

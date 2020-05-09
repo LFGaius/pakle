@@ -27,6 +27,7 @@ dependencies:
   convert: ^2.1.1
   shared_preferences: ^0.5.7
   flutter_sound: ^4.0.0
+  dots_indicator: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,9 @@ flutter:
    - assets/pakle.jpg
    - assets/spinner.png
    - assets/toplogin.png
+   - assets/learn.png
+   - assets/teach.png
+   - assets/interact.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

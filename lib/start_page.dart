@@ -42,6 +42,7 @@ class _StartPageState extends State<StartPage> {
                   '/login',
                 );
               else{
+                print('home page');
                 //go to the home page
               } 
             }
