@@ -7,6 +7,7 @@ import 'package:pakle/start_page.dart';
 import 'package:pakle/reset_password_page.dart';
 import 'account_recovery_info_page.dart';
 import 'choose_language_page.dart';
+import 'home_page.dart';
 
 class RouteBuilder{
   static Route<dynamic> buidRoute(RouteSettings settings){
@@ -32,6 +33,8 @@ class RouteBuilder{
         return MaterialPageRoute(builder: (_)=>ResetPasswordPage(userData:args['userData']));
       case '/chooselanguage':
         return MaterialPageRoute(builder: (_)=>ChooseLanguagePage());
+      case '/home':
+        return MaterialPageRoute(builder: (_)=>HomePage());
       default: return errorRoute();
     }
   }

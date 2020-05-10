@@ -33,12 +33,12 @@ class _StartPageState extends State<StartPage> {
             actionpending=false;
             errormessage='';
             if(prefs.getString('pakle_language')==null){//first time connection
-              Navigator.of(context).pushNamed(
+              Navigator.of(context).popAndPushNamed(
                 '/chooselanguage',
               );
             }else{
               if(prefs.getBool('pakle_is_login')==null || prefs.getBool('pakle_is_login')==false)
-                Navigator.of(context).pushNamed(
+                Navigator.of(context).popAndPushNamed(
                   '/login',
                 );
               else{
@@ -53,7 +53,7 @@ class _StartPageState extends State<StartPage> {
         setState(() {
           errormessage='Connection problem';
           actionpending=false;
-          exit(0);
+          // exit(0);
         });
       });
     });

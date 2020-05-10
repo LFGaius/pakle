@@ -53,6 +53,8 @@ flutter:
    - assets/learn.png
    - assets/teach.png
    - assets/interact.png
+   - assets/hometop.png
+   - assets/backheaddawer.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
