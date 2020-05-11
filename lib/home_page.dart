@@ -128,7 +128,31 @@ class HomePage extends StatelessWidget {
                 fit: BoxFit.fill
               )
             )
-          )
+          ),
+          Center(
+            child: Text(
+              'You want to ?',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color:Color.fromRGBO(27, 34, 50, 1) 
+              ),
+            ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height*0.05),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              CustomCard(
+                imagepath: 'assets/learn.png',
+                message: 'LEARN',
+              ),
+              CustomCard(
+                imagepath: 'assets/teach.png',
+                message: 'CREATE',
+              )
+            ],
+          ),
         ],
       ),
       // floatingActionButton: FloatingActionButton(
@@ -139,6 +163,71 @@ class HomePage extends StatelessWidget {
       //     color:Color.fromRGBO(250, 218, 0, 1)
       //   ),
       // ), 
+    );
+  }
+}
+
+class CustomCard extends StatelessWidget{
+
+  final String imagepath;
+  final String message;
+
+  CustomCard({this.imagepath,this.message});
+
+  @override
+  Widget build(context){
+    return FlatButton(
+          child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    spreadRadius: 0.4,
+                    offset: Offset(0,4),
+                    color: Color.fromRGBO(27, 34, 50, 1)
+                  )
+                ],
+                borderRadius: BorderRadius.circular(20),
+                color: Color.fromRGBO(27, 34, 50, 0.98),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height*0.24,
+                    width: MediaQuery.of(context).size.width*0.40,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(250, 218, 0, 1),
+                      image: DecorationImage(
+                        image: AssetImage(imagepath),
+                        fit: BoxFit.fill,
+                      ),
+                       borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height*0.09,
+                    width: MediaQuery.of(context).size.width*0.40,
+                    child:Center(
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                          color: Color.fromRGBO(250, 218, 0, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18
+                        ),
+                      ),
+                    )
+                  ),
+                ],
+              ),
+            ), 
+            onPressed: () {
+              switch(message){
+                case 'LEARN':
+                  break;
+                case 'CREATE':
+                  break;
+              }
+            },
     );
   }
 }
