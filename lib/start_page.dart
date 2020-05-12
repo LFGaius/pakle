@@ -42,8 +42,9 @@ class _StartPageState extends State<StartPage> {
                   '/login',
                 );
               else{
-                print('home page');
-                //go to the home page
+                Navigator.of(context).pushNamed(
+                  '/home'
+                );
               } 
             }
           });
@@ -94,7 +95,7 @@ class _StartPageState extends State<StartPage> {
             Container(
               height:MediaQuery.of(context).size.height*0.1,
               child: Center(
-                child: Text('Powered by ENOV')
+                child: Text('Powered by FrikArt')
               ),
             )
           ],

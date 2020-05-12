@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pakle/code_verification_page.dart';
 import 'package:pakle/login_page.dart';
 import 'package:pakle/onboarding_screen.dart';
+import 'package:pakle/profile_page.dart';
 import 'package:pakle/sign_up_page.dart';
 import 'package:pakle/start_page.dart';
 import 'package:pakle/reset_password_page.dart';
@@ -35,6 +36,8 @@ class RouteBuilder{
         return MaterialPageRoute(builder: (_)=>ChooseLanguagePage());
       case '/home':
         return MaterialPageRoute(builder: (_)=>HomePage());
+      case '/profile':
+        return MaterialPageRoute(builder: (_)=>ProfilePage());
       default: return errorRoute();
     }
   }

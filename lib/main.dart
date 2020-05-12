@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/chooselanguage',
+      initialRoute: '/profile',
       onGenerateRoute: RouteBuilder.buidRoute,
     );
   }

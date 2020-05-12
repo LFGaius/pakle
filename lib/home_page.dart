@@ -39,12 +39,13 @@ class HomePage extends StatelessWidget {
                   ),
                   color: Color.fromRGBO(27, 34, 50, 1),
                 ),
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FlatButton(
+
+                      child: Row(
                         children: <Widget>[
                           Icon(
                             Icons.account_circle,
@@ -73,18 +74,22 @@ class HomePage extends StatelessWidget {
                             ],
                           )
                         ],
-                      )
-                    ],
-                  ),
+                      ), onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          '/profile'
+                        );
+                      },
+                    )
+                  ],
                 )
               ),
               ListTile(
                 leading: Icon(
-                  Icons.message,
+                  Icons.group,
                   color:Color.fromRGBO(27, 34, 50, 0.9),
                 ),
                 title: Text(
-                  'Messages',
+                  'My Network',
                   style: TextStyle(
                     color:Color.fromRGBO(27, 34, 50, 1)
                   ),
@@ -92,11 +97,11 @@ class HomePage extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(
-                  Icons.account_circle,
+                  Icons.insert_chart,
                   color:Color.fromRGBO(27, 34, 50, 0.9),
                 ),
                 title: Text(
-                  'Profile',
+                  'Reports',
                   style: TextStyle(
                     color:Color.fromRGBO(27, 34, 50, 1)
                   ),
@@ -109,6 +114,54 @@ class HomePage extends StatelessWidget {
                 ),
                 title: Text(
                   'Settings',
+                  style: TextStyle(
+                    color:Color.fromRGBO(27, 34, 50, 1)
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.message,
+                  color:Color.fromRGBO(27, 34, 50, 0.9),
+                ),
+                title: Text(
+                  'Contact Us',
+                  style: TextStyle(
+                    color:Color.fromRGBO(27, 34, 50, 1)
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.help,
+                  color:Color.fromRGBO(27, 34, 50, 0.9),
+                ),
+                title: Text(
+                  'Help',
+                  style: TextStyle(
+                    color:Color.fromRGBO(27, 34, 50, 1)
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.person_pin,
+                  color:Color.fromRGBO(27, 34, 50, 0.9),
+                ),
+                title: Text(
+                  'Invite Your Friends',
+                  style: TextStyle(
+                    color:Color.fromRGBO(27, 34, 50, 1)
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.cancel,
+                  color:Color.fromRGBO(27, 34, 50, 0.9),
+                ),
+                title: Text(
+                  'Logout',
                   style: TextStyle(
                     color:Color.fromRGBO(27, 34, 50, 1)
                   ),
@@ -149,20 +202,12 @@ class HomePage extends StatelessWidget {
               ),
               CustomCard(
                 imagepath: 'assets/teach.png',
-                message: 'CREATE',
+                message: 'CREATE/EDIT',
               )
             ],
           ),
         ],
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   backgroundColor: Color.fromRGBO(27, 34, 50, 1),
-      //   child: Icon(
-      //     Icons.home,
-      //     color:Color.fromRGBO(250, 218, 0, 1)
-      //   ),
-      // ), 
+      ), 
     );
   }
 }
