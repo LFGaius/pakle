@@ -106,7 +106,7 @@ class ChooseLanguagePage extends StatelessWidget {
   chooseOperation(BuildContext context,String language) async{
     SharedPreferences prefs=await SharedPreferences.getInstance();
     prefs.setString('pakle_language',language);
-    //prefs.setString('pakle_language',null);
+    //prefs.remove('pakle_language');
     Navigator.of(context).pushNamed('/onboarding');
   }
   

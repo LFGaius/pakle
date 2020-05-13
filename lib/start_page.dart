@@ -54,7 +54,7 @@ class _StartPageState extends State<StartPage> {
         setState(() {
           errormessage='Connection problem';
           actionpending=false;
-          // exit(0);
+          // exit(0); we will remove comment after
         });
       });
     });

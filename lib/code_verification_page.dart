@@ -193,7 +193,10 @@ class _CodeVerificationPageState extends State<CodeVerificationPage> {
                 switch(widget.from){
                   case 'login':
                     await setLoginPreferences();
-                    //navigate to the home page
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/home',
+                      (Route<dynamic> route) => false//check the way to pass that parameter
+                    );
                     break;
                   case 'signup':
                     Navigator.of(context).pushNamed(
