@@ -8,6 +8,7 @@ import 'package:pakle/start_page.dart';
 import 'package:pakle/reset_password_page.dart';
 import 'account_recovery_info_page.dart';
 import 'choose_language_page.dart';
+import 'create_page.dart';
 import 'home_page.dart';
 
 class RouteBuilder{
@@ -38,6 +39,8 @@ class RouteBuilder{
         return MaterialPageRoute(builder: (_)=>HomePage());
       case '/profile':
         return MaterialPageRoute(builder: (_)=>ProfilePage());
+      case '/create':
+        return MaterialPageRoute(builder: (_)=>CreatePage());
       default: return errorRoute();
     }
   }
