@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -113,7 +115,7 @@ class HomePage extends StatelessWidget {
                   color:Color.fromRGBO(27, 34, 50, 0.9),
                 ),
                 title: Text(
-                  'Settings',
+                  'Settings & Security',
                   style: TextStyle(
                     color:Color.fromRGBO(27, 34, 50, 1)
                   ),
@@ -166,6 +168,12 @@ class HomePage extends StatelessWidget {
                     color:Color.fromRGBO(27, 34, 50, 1)
                   ),
                 ),
+                onTap: () async{
+                  SharedPreferences prefs=await SharedPreferences.getInstance();
+                  prefs.setString('pakle_email',null);
+                  prefs.setBool('pakle_is_login',false);
+                  exit(0);
+                },
               ),
             ],
           ),
